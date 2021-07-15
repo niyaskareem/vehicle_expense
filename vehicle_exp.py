@@ -4,12 +4,13 @@ def fuel_calc(v_data):
         mltply_list.append(n2/n1)
     Sum = sum(mltply_list)
     cost_of_fuel = Sum * v_data["fuel_market_cost"]
+    print(f"Total cost of Fuel is {cost_of_fuel}")
     return cost_of_fuel
 
 def Total_insurance_cost(ve_data):
     fixed_insur_cost = 800
     deprecated_value = ve_data["Cost_of_new_vehicle"] - 10000
-    
+    print(f"Deprecated value of the vehicle is {deprecated_value}")
     if ve_data["Brand_of_vehicle"] in ["bmw","mercedes","tesla","jaguar"]:
         depreciation = 30
     elif ve_data["Brand_of_vehicle"] in ["toyota","nissan","mitsubishi","honda"]:
@@ -18,6 +19,7 @@ def Total_insurance_cost(ve_data):
         depreciation = 10
     
     current_vehicle_cost = deprecated_value - (ve_data["age_of_vehicle"] * (deprecated_value/depreciation))
+    print(f"Current cost of vehicle is {current_vehicle_cost}")
 
     if ve_data["Top_speed"] >= 100 and ve_data["Top_speed"] < 140:
         top_speed_add = 0.02
@@ -26,6 +28,7 @@ def Total_insurance_cost(ve_data):
     elif ve_data["Top_speed"] > 200:
         top_speed_add = 0.06
     current_insurance = fixed_insur_cost + (current_vehicle_cost * top_speed_add)
+    print(f"Insurance cost after considering top speed {current_insurance}")
 
     if ve_data["accidents_last_year"] == 0:
         acc_insur_add = -0.10
@@ -33,12 +36,14 @@ def Total_insurance_cost(ve_data):
         acc_insur_add = 0.15
     elif ve_data["accidents_last_year"] > 3:
         acc_insur_add = 0.30
-    current_insurance = current_insurance - (acc_insur_add * current_insurance)
+    current_insurance = current_insurance + (acc_insur_add * current_insurance)
+    print(f"Insurance cost considering number of accidents {current_insurance}")
 
     if ve_data["four_wd"] and (ve_data["Driving_pattern_km"][2]/sum(ve_data["Driving_pattern_km"]))*100 >= 40:
         Total_insurance_cost = current_insurance + (0.20* current_insurance)
+        print(f"Insurance cost considering off road and excessive offroad KMs{Total_insurance_cost}")
         return Total_insurance_cost
-    
+    print(f"Insurance cost of the vehicle {current_insurance}")
     return current_insurance
     
 brands = ["bmw","mercedes","tesla","jaguar","toyota","nissan","mitsubishi","honda","kia","hyundai","renault","ford"]
