@@ -1,3 +1,4 @@
+#Function collecting dictionary with vehicle data entered by user and calculating Total Fuel cost
 def fuel_calc(v_data):
     mltply_list = []
     for n1,n2 in zip(v_data["mileage"], v_data["Driving_pattern_km"]):
@@ -6,11 +7,13 @@ def fuel_calc(v_data):
     cost_of_fuel = Sum * v_data["fuel_market_cost"]
     print(f"Total cost of Fuel is {cost_of_fuel}")
     return cost_of_fuel
-
+#Function collecting dictionary with vehicle data entered by user and calculating Total Insurance cost
 def Total_insurance_cost(ve_data):
     fixed_insur_cost = 800
     deprecated_value = ve_data["Cost_of_new_vehicle"] - 10000
     print(f"Deprecated value of the vehicle is {deprecated_value}")
+
+#Checking user entered data to calculate the depreciation slab
     if ve_data["Brand_of_vehicle"] in ["bmw","mercedes","tesla","jaguar"]:
         depreciation = 30
     elif ve_data["Brand_of_vehicle"] in ["toyota","nissan","mitsubishi","honda"]:
@@ -20,7 +23,7 @@ def Total_insurance_cost(ve_data):
     
     current_vehicle_cost = deprecated_value - (ve_data["age_of_vehicle"] * (deprecated_value/depreciation))
     print(f"Current cost of vehicle is {current_vehicle_cost}")
-
+#Checking user entered top speed data to calculate appropriate top speed added value to the insurance cost
     if ve_data["Top_speed"] >= 100 and ve_data["Top_speed"] < 140:
         top_speed_add = 0.02
     elif ve_data["Top_speed"] >= 140 and ve_data["Top_speed"] < 200:
@@ -29,7 +32,7 @@ def Total_insurance_cost(ve_data):
         top_speed_add = 0.06
     current_insurance = fixed_insur_cost + (current_vehicle_cost * top_speed_add)
     print(f"Insurance cost after considering top speed {current_insurance}")
-
+##checking user entered accident data to give discount if no accidents and to add extra accident charges on to insurance cost
     if ve_data["accidents_last_year"] == 0:
         acc_insur_add = -0.10
     elif ve_data["accidents_last_year"] >= 1 and ve_data["accidents_last_year"] <=3:
@@ -38,7 +41,7 @@ def Total_insurance_cost(ve_data):
         acc_insur_add = 0.30
     current_insurance = current_insurance + (acc_insur_add * current_insurance)
     print(f"Insurance cost considering number of accidents {current_insurance}")
-
+#If the vehicle is 4wd then we shall check if the KM driven on offroad compared to total driver km is whether more than 40%, if yes then additional offroad insurance cost
     if ve_data["four_wd"] and (ve_data["Driving_pattern_km"][2]/sum(ve_data["Driving_pattern_km"]))*100 >= 40:
         Total_insurance_cost = current_insurance + (0.20* current_insurance)
         print(f"Insurance cost considering off road and excessive offroad KMs{Total_insurance_cost}")
